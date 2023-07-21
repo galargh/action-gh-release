@@ -46,6 +46,9 @@ inputs:
   append_body:
     description: "Append to existing body instead of overwriting it. Default is false."
     required: false
+  make_latest:
+    description: "Specifies whether this release should be set as the latest release for the repository. If draft or prerelease is true, this parameter is ignored. Defaults to undefined which, currently, GitHub interprets as true."
+    required: false
 env:
   "GITHUB_TOKEN": "As provided by Github Actions"
 outputs:
