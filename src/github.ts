@@ -25,7 +25,6 @@ export interface Release {
   draft: boolean;
   prerelease: boolean;
   assets: Array<{ id: number; name: string }>;
-  make_latest?: string | undefined;
 }
 
 export interface Releaser {
@@ -203,6 +202,7 @@ export const release = async (
 
   const discussion_category_name = config.input_discussion_category_name;
   const generate_release_notes = config.input_generate_release_notes;
+  const make_latest = config.input_make_latest;
   try {
     let existingRelease: Release | undefined;
     for await (const response of releaser.allReleases({
@@ -254,10 +254,6 @@ export const release = async (
         config.input_prerelease !== undefined
           ? config.input_prerelease
           : existingRelease.prerelease;
-      const make_latest =
-        config.input_make_latest !== undefined
-          ? config.input_make_latest
-          : existingRelease.make_latest;
 
       const release = await releaser.updateRelease({
         owner,
@@ -281,7 +277,6 @@ export const release = async (
       const draft = config.input_draft;
       const prerelease = config.input_prerelease;
       const target_commitish = config.input_target_commitish;
-      const make_latest = config.input_make_latest;
       let commitMessage: string = "";
       if (target_commitish) {
         commitMessage = ` using commit "${target_commitish}"`;
